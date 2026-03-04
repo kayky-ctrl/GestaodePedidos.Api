@@ -42,21 +42,75 @@ Esta é a API de alta performance do ecossistema **ShopGest**, desenvolvida em *
 ├── Models                     # Entidades do Banco de Dados e DTOs
 └── Data                       # Contexto do Entity Framework (AppDbContext)
 ```
-## 🚀 Como Executar
-Certifique-se de ter o SDK do .NET instalado em sua máquina.
+## 🚀 Como Executar o Projeto Localmente
 
-Clone o repositório para o seu ambiente local.
+Como este projeto utiliza **Docker** e **SQLite**, você não precisa configurar um servidor de banco de dados pesado na sua máquina.
 
-Configure sua String de Conexão no arquivo appsettings.json.
+### Pré-requisitos
+* [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (opcional, se não usar Docker)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) (recomendado)
 
-Execute as migrações para criar o banco de dados:
+### 📥 Clonando o Repositório
+```bash
+git clone https://github.com/kayky-ctrl/GestaodePedidos.Api.git
+cd GestaodePedidos.Api
+```
+
+### 🐳 Rodando com Docker (Mais fácil)
+O Docker garantirá que a API rode exatamente como está em produção.
+
+**Construir a imagem:**
+```bash
+docker build -t shopgest-api .
+```
+### Executar o container:
+
+```Bash
+docker run -p 5000:80 shopgest-api
+```
+Acesse: http://localhost:5000/swagger
+
+## 💻 Rodando sem Docker (Manual)
+### Restaurar dependências:
+
+```Bash
+dotnet restore
+```
+### Atualizar o Banco de Dados:
+A API está configurada para criar o arquivo shopgest.db automaticamente no primeiro acesso através do comando
+```
+context.Database.EnsureCreated(). Caso prefira rodar via CLI:
+```
 
 ```Bash
 dotnet ef database update
 ```
-Inicie o servidor:
-```Bash
+### Executar a aplicação:
+
+``` Bash
 dotnet run
 ```
+## ☁️ Deploy em Produção
 
-ShopGest API - Garantindo segurança e agilidade no processamento de dados.
+A API está hospedada na **Render** e configurada para *Continuous Deployment* via GitHub.
+
+* **URL Base:** [https://gestaodepedidos-api.onrender.com](https://gestaodepedidos-api.onrender.com)
+* **Banco de Dados:** SQLite (persistido dentro do container).
+* **CORS:** Liberado para todas as origens para facilitar a integração com o frontend.
+
+---
+
+## 🛠️ Configurações Importantes de Infraestrutura
+
+* **Dockerfile:** Utiliza imagens base Linux (Debian) para garantir alta compatibilidade com ambientes Cloud.
+* **Auto-Init:** A API possui lógica de inicialização automática de banco de dados no `Program.cs`, dispensando a necessidade de rodar migrations manuais no servidor (utiliza o método `context.Database.EnsureCreated()`).
+
+---
+
+## 🛠 Tecnologias Utilizadas
+
+* **C# / .NET 8**
+* **Entity Framework Core**
+* **SQLite** (Banco de dados relacional leve)
+* **Docker** (Conteinerização)
+* **Swagger** (Documentação e testes de API)ShopGest API - Garantindo segurança e agilidade no processamento de dados.
