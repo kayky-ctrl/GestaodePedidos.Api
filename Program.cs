@@ -4,17 +4,17 @@ using ShopGestProjeto.Api.Services.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. BANCO DE DADOS (Ajuste a string de conex„o no appsettings.json para SQLite ou Postgres)
+// 1. BANCO DE DADOS (Ajuste a string de conex√£o no appsettings.json para SQLite ou Postgres)
 var connectionstring = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(connectionstring)); // Mude para UseSqlite se n„o tiver um SQL Server na nuvem
+    options.UseSqlite(connectionstring)); // Mude para UseSqlite se n√£o tiver um SQL Server na nuvem
 
 builder.Services.AddScoped<IHashService, HashService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// 2. CORS (Perfeito como vocÍ fez)
+// 2. CORS (Perfeito como voc√™ fez)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTudo",
@@ -32,11 +32,26 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseCors("PermitirTudo");
 
-// Deixe o Swagger fora do IF para conseguir visualizar na nuvem no inÌcio
+// Deixe o Swagger fora do IF para conseguir visualizar na nuvem no in√≠cio
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseAuthorization();
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.EnsureCreated(); // Cria o arquivo .db e as tabelas automaticamente
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Ocorreu um erro ao criar o banco de dados.");
+    }
+}
 
 app.Run();
