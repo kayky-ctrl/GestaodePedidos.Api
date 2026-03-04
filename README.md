@@ -2,6 +2,19 @@
 
 Esta é a API de alta performance do ecossistema **ShopGest**, desenvolvida em **ASP.NET Core**. Ela é responsável pelo processamento de regras de negócio, persistência de dados e segurança de informações sensíveis de clientes e vendas.
 
+---
+
+## 📌 Menu de Navegação
+* [🛠️ Tecnologias e Frameworks](#️-tecnologias-e-frameworks)
+* [🔐 Segurança e Regras de Negócio](#-segurança-e-regras-de-negócio)
+* [🛣️ Endpoints da API](#️-endpoints-da-api)
+* [📂 Estrutura do Projeto](#-estrutura-do-projeto)
+* [🗄️ Banco de Dados e Persistência](#️-banco-de-dados-e-persistência)
+* [🚀 Como Executar Localmente](#-como-executar-o-projeto-localmente)
+* [☁️ Deploy em Produção](#️-deploy-em-produção)
+
+---
+
 ## 🛠️ Tecnologias e Frameworks
 
 * **ASP.NET Core Web API:** Framework principal para construção dos serviços.
@@ -121,11 +134,3 @@ A API está hospedada na **Render** e configurada para *Continuous Deployment* v
 * **Auto-Init:** A API possui lógica de inicialização automática de banco de dados no `Program.cs`, dispensando a necessidade de rodar migrations manuais no servidor (utiliza o método `context.Database.EnsureCreated()`).
 
 ---
-
-## 🛠 Tecnologias Utilizadas
-
-* **C# / .NET 8**
-* **Entity Framework Core**
-* **SQLite** (Banco de dados relacional leve)
-* **Docker** (Conteinerização)
-* **Swagger** (Documentação e testes de API)ShopGest API - Garantindo segurança e agilidade no processamento de dados.
