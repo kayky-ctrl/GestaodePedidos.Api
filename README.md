@@ -42,6 +42,21 @@ Esta é a API de alta performance do ecossistema **ShopGest**, desenvolvida em *
 ├── Models                     # Entidades do Banco de Dados e DTOs
 └── Data                       # Contexto do Entity Framework (AppDbContext)
 ```
+## 🗄️ Banco de Dados e Persistência
+
+O projeto utiliza o **SQLite** como motor de banco de dados, o que torna a aplicação leve, portátil e de fácil configuração para ambientes de teste e produção rápida.
+
+* **Arquivo do Banco:** As informações são armazenadas em um arquivo físico chamado `shopgest.db`.
+* **Localização (Local):** Ao executar o projeto em sua máquina (via `dotnet run`), o arquivo será criado automaticamente na raiz da pasta do projeto API.
+* **Localização (Docker/Render):** Dentro do container Docker, o arquivo reside na pasta `/app/shopgest.db`.
+* **Migrações:** O esquema das tabelas é gerenciado pelo **Entity Framework Core**. Graças ao comando `context.Database.EnsureCreated()` no `Program.cs`, o banco de dados e todas as tabelas (Clientes e Pedidos) são gerados automaticamente assim que a API é iniciada pela primeira vez, eliminando a necessidade de configurações manuais de servidor.
+
+
+
+> **Nota sobre Persistência na Render:** Como a Render utiliza sistemas de arquivos efêmeros em planos gratuitos, o arquivo `.db` é resetado sempre que o serviço é reiniciado ou um novo deploy é feito. Para uso em produção real com retenção de dados a longo prazo, recomenda-se o uso de um "Disk Storage" montado no container ou a migração para PostgreSQL.
+
+---
+
 ## 🚀 Como Executar o Projeto Localmente
 
 Como este projeto utiliza **Docker** e **SQLite**, você não precisa configurar um servidor de banco de dados pesado na sua máquina.
