@@ -15,9 +15,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# Variável para garantir que a API rode na porta 80 (padrão Render)
+# Garante permissão de escrita para o SQLite criar o banco
+USER root
+RUN chmod -R 777 /app
+
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
-
-# Comando para iniciar a API
 ENTRYPOINT ["dotnet", "ShopGestProjeto.Api.dll"]
