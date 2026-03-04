@@ -65,7 +65,7 @@ namespace ShopGestProjeto.Api.Controllers
 
                 // 🔒 REGRAS FORÇADAS PELO BACKEND
                 DataCompra = DateTime.Now,
-                Status = StatusPedido.EmTransito
+                Status = StatusPedido.AguardandoPagamento
             };
 
             _context.Pedidos.Add(newPedido);

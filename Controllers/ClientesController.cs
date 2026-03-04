@@ -21,6 +21,45 @@ namespace ShopGestProjeto.Api.Controllers
             _hashService = hashService;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<object>>> GetClientes()
+        {
+            var clientes = await _context.Clientes
+                .Select(c => new
+                {
+                    c.Id,
+                    c.Nome,
+                    c.CPF,
+                    c.Email,
+                    c.ScoreRisco
+                })
+                .ToListAsync();
+
+            return Ok(clientes);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetClienteById(int id)
+        {
+            var cliente = await _context.Clientes
+                .Select(c => new
+                {
+                    c.Id,
+                    c.Nome,
+                    c.CPF,
+                    c.Email,
+                    c.ScoreRisco
+                })
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (cliente == null)
+            {
+                return NotFound("Cliente não encontrado.");
+            }
+
+            return Ok(cliente);
+        }
+
         [HttpPost("Criar-cliente")]
         public async Task<ActionResult> CriarCLiente(CreateClienteDto dto)
         {
